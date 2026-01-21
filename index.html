@@ -7,10 +7,22 @@
 <style>
   body { font-family: sans-serif; text-align: center; padding: 2rem; }
 </style>
+<script>
+// Au chargement, rediriger si un code valide est déjà enregistré
+(function() {
+  var code = localStorage.getItem('poseidon-code');
+  if (code && /^\d{6}$/.test(code)) {
+    var num = parseInt(code, 10);
+    if (num >= 0 && num <= 666666) {
+      window.location.href = 'https://umap.openstreetmap.fr/fr/map/poseidon_1261549';
+    }
+  }
+})();
+</script>
 </head>
 <body>
 <h1>Accès à la carte POSEIDON</h1>
-<p>Veuillez entrer votre code à 6 chiffres (000000 à 666666).</p>
+<p>Veuillez entrer votre code à 6 chiffres (000000 à 666666).</p>
 <input type="text" id="access-code" maxlength="6" />
 <button type="button" onclick="validateCode()">Valider</button>
 <p id="error" style="color: red;"></p>
@@ -26,9 +38,8 @@ function validateCode() {
     document.getElementById('error').textContent = 'Code invalide. Veuillez entrer un code entre 000000 et 666666.';
     return;
   }
-  // Stocker le code localement
+  // Stocker le code et rediriger
   localStorage.setItem('poseidon-code', code);
-  // Redirection vers la carte uMap en plein écran
   window.location.href = 'https://umap.openstreetmap.fr/fr/map/poseidon_1261549';
 }
 </script>
