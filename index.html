@@ -4,11 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>POSEIDON – Carte satellite</title>
-
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     html, body { height: 100%; margin: 0; }
     #map { height: 100%; width: 100%; }
@@ -16,19 +12,25 @@
 </head>
 <body>
   <div id="map"></div>
-
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     const start = [50.8503, 4.3517]; // Bruxelles
-
     const map = L.map("map").setView(start, 13);
-
     L.tileLayer(
       "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
       { maxZoom: 19 }
     ).addTo(map);
-
+    // Marker for start
     L.marker(start).addTo(map).bindPopup("POSEIDON").openPopup();
+    // Load points from JSON
+    fetch('points.json')
+      .then(response => response.json())
+      .then(points => {
+        points.forEach(pt => {
+          L.marker([pt.lat, pt.lon]).addTo(map).bindPopup(pt.description);
+        });
+      })
+      .catch(err => console.error(err));
   </script>
 </body>
 </html>
