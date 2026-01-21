@@ -22,13 +22,17 @@
     ).addTo(map);
     // Marker for start
     L.marker(start).addTo(map).bindPopup("POSEIDON").openPopup();
-    // Load points from JSON
-    fetch('points.json')
+    // Load GeoJSON points
+    fetch('poseidon.geojson')
       .then(response => response.json())
-      .then(points => {
-        points.forEach(pt => {
-          L.marker([pt.lat, pt.lon]).addTo(map).bindPopup(pt.description);
-        });
+      .then(data => {
+        L.geoJSON(data, {
+          onEachFeature: function(feature, layer) {
+            if (feature.properties && feature.properties.description) {
+              layer.bindPopup(feature.properties.description);
+            }
+          }
+        }).addTo(map);
       })
       .catch(err => console.error(err));
   </script>
