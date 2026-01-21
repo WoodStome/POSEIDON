@@ -30,12 +30,12 @@
 function validateCode() {
   var code = document.getElementById('access-code').value.trim();
   if (!/^\d{6}$/.test(code)) {
-    document.getElementById('error').textContent = 'Veuillez entrer un code à 6 chiffres.';
+    document.getElementById('error').textContent = 'Veuillez entrer votre NIGEND.';
     return;
   }
   var num = parseInt(code, 10);
   if (num < 0 || num > 666666) {
-    document.getElementById('error').textContent = 'Code invalide. Veuillez entrer un code entre 000000 et 666666.';
+    document.getElementById('error').textContent = 'NIGEND invalide.';
     return;
   }
   // Stocker le code et rediriger
